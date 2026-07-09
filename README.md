@@ -145,15 +145,17 @@ The application will run at `http://127.0.0.1:5000/`. Open this URL in your web 
 
 ## Screenshots
 
-*(Add your screenshots here)*
 
 - **Login / Register**
-  ![Login Screen](placeholder-login.png)
+  ![Login Screen](Screenshorts/Screenshot%202026-07-09%20215733.png)
+  ![Register Screen](Screenshorts/Screenshot%202026-07-09%20215743.png)
 - **Dashboard**
-  ![Dashboard Screen](placeholder-dashboard.png)
+  ![Dashboard Screen](Screenshorts/Screenshot%202026-07-09%20215811.png)
 - **Task List**
-  ![Task List Screen](placeholder-tasks.png)
-
+  ![Task List Screen](Screenshorts/Screenshot%202026-07-09%20215821.png)
+- **Add Task**
+  ![Add Task Screen](Screenshorts/Screenshot%202026-07-09%20215831.png)
+  
 ---
 
 ## Future Improvements
@@ -163,3 +165,20 @@ The application will run at `http://127.0.0.1:5000/`. Open this URL in your web 
 - Implement email notifications for overdue tasks.
 - Allow grouping tasks into categories or projects.
 - Add drag-and-drop ordering for tasks.
+
+## 📄 License
+
+This project is intended for educational and learning purposes.
+
+---
+
+## 👩‍💻 Author
+
+**Aarushi Chaddha**
+
+---
+
+## 🏢 Internship
+
+**These projects were developed as part of the MPOnline Internship Project.**
+

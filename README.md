@@ -1,4 +1,4 @@
-# Simple Task Management System
+# Task Management System
 
 A full-stack Task Management System built with Python (Flask), MySQL, and Vanilla HTML/CSS/JavaScript. It features a clean architecture, simple folder structure, and well-commented code, making it perfect for beginners.
 

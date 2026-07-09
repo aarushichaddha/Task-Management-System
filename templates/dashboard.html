@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Task Manager{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h2>Dashboard Overview</h2>
+</div>
+
+<div class="dashboard-cards">
+    <div class="card stat-card primary">
+        <div class="card-icon"><i class="fas fa-list-ul"></i></div>
+        <div class="card-info">
+            <h3>Total Tasks</h3>
+            <p class="stat-number">{{ total }}</p>
+        </div>
+    </div>
+    <div class="card stat-card warning">
+        <div class="card-icon"><i class="fas fa-hourglass-half"></i></div>
+        <div class="card-info">
+            <h3>Pending</h3>
+            <p class="stat-number">{{ pending }}</p>
+        </div>
+    </div>
+    <div class="card stat-card success">
+        <div class="card-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="card-info">
+            <h3>Completed</h3>
+            <p class="stat-number">{{ completed }}</p>
+        </div>
+    </div>
+    <div class="card stat-card danger">
+        <div class="card-icon"><i class="fas fa-exclamation-circle"></i></div>
+        <div class="card-info">
+            <h3>Overdue</h3>
+            <p class="stat-number">{{ overdue }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="quick-actions mt-2">
+    <a href="{{ url_for('tasks') }}" class="btn btn-primary"><i class="fas fa-tasks"></i> View All Tasks</a>
+    <a href="{{ url_for('add_task') }}" class="btn btn-success"><i class="fas fa-plus"></i> Create New Task</a>
+</div>
+{% endblock %}

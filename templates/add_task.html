@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Add Task - Task Manager{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="card p-4">
+        <h2><i class="fas fa-plus-circle"></i> Add New Task</h2>
+        <form action="{{ url_for('add_task') }}" method="POST" id="addTaskForm">
+            <div class="form-group">
+                <label for="title">Task Title *</label>
+                <input type="text" id="title" name="title" required maxlength="200" placeholder="E.g., Complete project report">
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" placeholder="Add some details about this task..."></textarea>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="priority">Priority</label>
+                    <select id="priority" name="priority">
+                        <option value="Low">Low</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input type="date" id="due_date" name="due_date">
+                </div>
+            </div>
+            
+            <div class="form-actions mt-2">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Task</button>
+                <a href="{{ url_for('tasks') }}" class="btn btn-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

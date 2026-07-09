@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}All Tasks - Task Manager{% endblock %}
+
+{% block content %}
+<div class="tasks-header">
+    <h2><i class="fas fa-tasks"></i> Your Tasks</h2>
+    <a href="{{ url_for('add_task') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add New Task</a>
+</div>
+
+<div class="filters-container card">
+    <form action="{{ url_for('tasks') }}" method="GET" class="filter-form">
+        <div class="form-group-inline">
+            <input type="text" name="search" placeholder="Search by title..." value="{{ request.args.get('search', '') }}">
+        </div>
+        <div class="form-group-inline">
+            <select name="status">
+                <option value="">All Statuses</option>
+                <option value="Pending" {% if request.args.get('status') == 'Pending' %}selected{% endif %}>Pending</option>
+                <option value="Completed" {% if request.args.get('status') == 'Completed' %}selected{% endif %}>Completed</option>
+                <option value="Overdue" {% if request.args.get('status') == 'Overdue' %}selected{% endif %}>Overdue</option>
+            </select>
+        </div>
+        <div class="form-group-inline">
+            <select name="priority">
+                <option value="">All Priorities</option>
+                <option value="Low" {% if request.args.get('priority') == 'Low' %}selected{% endif %}>Low</option>
+                <option value="Medium" {% if request.args.get('priority') == 'Medium' %}selected{% endif %}>Medium</option>
+                <option value="High" {% if request.args.get('priority') == 'High' %}selected{% endif %}>High</option>
+            </select>
+        </div>
+        <div class="form-group-inline">
+            <button type="submit" class="btn btn-secondary"><i class="fas fa-filter"></i> Filter</button>
+            <a href="{{ url_for('tasks') }}" class="btn btn-outline">Clear</a>
+        </div>
+    </form>
+</div>
+
+<div class="tasks-grid">
+    {% if tasks %}
+        {% for task in tasks %}
+        <div class="task-card status-{{ task.status|lower }}">
+            <div class="task-header">
+                <h3 class="task-title">{{ task.title }}</h3>
+                <span class="badge priority-{{ task.priority|lower }}">{{ task.priority }}</span>
+            </div>
+            
+            <div class="task-body">
+                <p class="task-desc">{{ task.description or 'No description provided.' }}</p>
+                <div class="task-meta">
+                    <p><i class="far fa-calendar-alt"></i> Due: {{ task.due_date if task.due_date else 'No due date' }}</p>
+                    <p>
+                        <i class="fas fa-info-circle"></i> Status: 
+                        <span class="badge status-badge-{{ task.status|lower }}">{{ task.status }}</span>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="task-footer">
+                <div class="task-actions">
+                    <a href="{{ url_for('edit_task', task_id=task.id) }}" class="btn btn-sm btn-info" title="Edit"><i class="fas fa-edit"></i></a>
+                    <a href="{{ url_for('delete_task', task_id=task.id) }}" class="btn btn-sm btn-danger delete-btn" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                    
+                    {% if task.status != 'Completed' %}
+                    <a href="{{ url_for('update_status', task_id=task.id, status='Completed') }}" class="btn btn-sm btn-success" title="Mark Completed"><i class="fas fa-check"></i></a>
+                    {% endif %}
+                    {% if task.status != 'Pending' %}
+                    <a href="{{ url_for('update_status', task_id=task.id, status='Pending') }}" class="btn btn-sm btn-warning" title="Mark Pending"><i class="fas fa-undo"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-clipboard-list"></i>
+            <h3>No tasks found</h3>
+            <p>You don't have any tasks matching your criteria.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

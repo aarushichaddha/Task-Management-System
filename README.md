@@ -2,6 +2,13 @@
 
 A full-stack Task Management System built with Python (Flask), PostgreSQL, and Vanilla HTML/CSS/JavaScript. It features a clean architecture, simple folder structure, and well-commented code, making it perfect for beginners.
 
+## 🚀 Live Demo
+
+**[https://task-management-system-883j.onrender.com](https://task-management-system-883j.onrender.com)**
+
+> Hosted on **Render** | Database powered by **Supabase (PostgreSQL)**
+
+
 ## Features
 
 - **User Authentication:** Registration, login, and logout using session-based authentication with secure password hashing.

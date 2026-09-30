@@ -12,13 +12,8 @@ app.config.from_object(Config)
 # Database connection helper
 def get_db_connection():
     try:
-        conn = psycopg2.connect(
-            host=app.config['DB_HOST'],
-            port=app.config['DB_PORT'],
-            user=app.config['DB_USER'],
-            password=app.config['DB_PASSWORD'],
-            dbname=app.config['DB_NAME']
-        )
+        # Connect using the connection string URI
+        conn = psycopg2.connect(app.config['DATABASE_URL'])
         return conn
     except psycopg2.Error as err:
         print(f"Error: {err}")

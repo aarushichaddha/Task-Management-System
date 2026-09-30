@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
-import mysql.connector
+import psycopg2
+import psycopg2.extras
 from config import Config
 from functools import wraps
 from datetime import datetime
@@ -11,15 +12,15 @@ app.config.from_object(Config)
 # Database connection helper
 def get_db_connection():
     try:
-        conn = mysql.connector.connect(
-            host=app.config['MYSQL_HOST'],
-            port=app.config['MYSQL_PORT'],
-            user=app.config['MYSQL_USER'],
-            password=app.config['MYSQL_PASSWORD'],
-            database=app.config['MYSQL_DATABASE']
+        conn = psycopg2.connect(
+            host=app.config['DB_HOST'],
+            port=app.config['DB_PORT'],
+            user=app.config['DB_USER'],
+            password=app.config['DB_PASSWORD'],
+            dbname=app.config['DB_NAME']
         )
         return conn
-    except mysql.connector.Error as err:
+    except psycopg2.Error as err:
         print(f"Error: {err}")
         return None
 
@@ -53,7 +54,7 @@ def register():
             flash('Database connection error.', 'danger')
             return redirect(url_for('register'))
             
-        cursor = conn.cursor(dictionary=True)
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         
         # Check if email exists
         cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
@@ -94,7 +95,7 @@ def login():
             flash('Database connection error.', 'danger')
             return redirect(url_for('login'))
             
-        cursor = conn.cursor(dictionary=True)
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
         user = cursor.fetchone()
         
@@ -124,7 +125,7 @@ def logout():
 def dashboard():
     user_id = session['user_id']
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     
     # Get total tasks
     cursor.execute('SELECT COUNT(*) as total FROM tasks WHERE user_id = %s', (user_id,))
@@ -177,7 +178,7 @@ def tasks():
     query += " ORDER BY due_date ASC, created_at DESC"
     
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cursor.execute(query, tuple(params))
     tasks = cursor.fetchall()
     
@@ -220,7 +221,7 @@ def add_task():
 @login_required
 def edit_task(task_id):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     
     # Check if task belongs to user
     cursor.execute('SELECT * FROM tasks WHERE id = %s AND user_id = %s', (task_id, session['user_id']))
